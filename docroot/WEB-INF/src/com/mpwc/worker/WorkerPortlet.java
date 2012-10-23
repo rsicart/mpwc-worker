@@ -72,7 +72,7 @@ public class WorkerPortlet extends MVCPortlet {
      	String nif = actionRequest.getParameter("nif");
      	String email = actionRequest.getParameter("email");
      	String phone = actionRequest.getParameter("phone");
-     	int status = Integer.parseInt(actionRequest.getParameter("status"));
+     	long status = Long.parseLong(actionRequest.getParameter("status"));
 
      	String comments = actionRequest.getParameter("comments");
      	Date now = new Date();
@@ -92,7 +92,7 @@ public class WorkerPortlet extends MVCPortlet {
  		    	w.setNif(nif);
  		    	w.setEmail(email);
  		    	if( phone != null && !phone.isEmpty() ){ w.setPhone(phone); }
- 		    	if( status > 0 ){ w.setStatus(status); }
+ 		    	if( status > 0 ){ w.setStatusId(status); }
  		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
  		    	w.setCreateDate(now);
  		    	WorkerLocalServiceUtil.addWorker(w);
@@ -118,7 +118,7 @@ public class WorkerPortlet extends MVCPortlet {
      	String nif = actionRequest.getParameter("nif");
      	String email = actionRequest.getParameter("email");
      	String phone = actionRequest.getParameter("phone");
-     	int status = Integer.parseInt(actionRequest.getParameter("status"));
+     	long status = Long.parseLong(actionRequest.getParameter("status"));
      	String comments = actionRequest.getParameter("comments");
      	Date now = new Date();
      	
@@ -132,7 +132,7 @@ public class WorkerPortlet extends MVCPortlet {
  				if( nif != null && !nif.isEmpty() ){ w.setNif(nif); }
  				if( email != null && !email.isEmpty() && email.indexOf("@") > 0 ){ w.setEmail(email); }
  		    	if( phone != null && !phone.isEmpty() ){ w.setPhone(phone); }
- 		    	if( status > 0 ){ w.setStatus(status); }
+ 		    	if( status > 0 ){ w.setStatusId(status); }
  		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
  		    	w.setModifiedDate(now);
  		    	WorkerLocalServiceUtil.updateWorker(w);
@@ -157,7 +157,7 @@ public class WorkerPortlet extends MVCPortlet {
      	
  	 	long workerId = Long.valueOf( actionRequest.getParameter("workerId") );
  	
- 	 	int status = 100; //deleted status
+ 	 	long status = 100; //deleted status
  	 	String comments = "Deleted worker.";
  	 	Date now = new Date();
  	 	
@@ -166,7 +166,7 @@ public class WorkerPortlet extends MVCPortlet {
  		    	Worker w;
  				try {			
  					w = WorkerLocalServiceUtil.getWorker(workerId);
- 			    	w.setStatus(status);
+ 			    	w.setStatusId(status);
  			    	w.setComments(comments);
  			    	w.setModifiedDate(now);
  			    	WorkerLocalServiceUtil.updateWorker(w);
@@ -191,7 +191,7 @@ public class WorkerPortlet extends MVCPortlet {
       	
   	 	String jsonWorkerIds = actionRequest.getParameter("jsonWorkerIds");
   	
-  	 	int status = 100; //deleted status
+  	 	long status = 100; //deleted status
   	 	String comments = "Deleted worker.";
   	 	Date now = new Date();
   	 	
@@ -212,7 +212,7 @@ public class WorkerPortlet extends MVCPortlet {
   		    	Worker w;
   				try {			
   					w = WorkerLocalServiceUtil.getWorker(jsonArrayWorkers.getLong(i));
-  			    	w.setStatus(status);
+  			    	w.setStatusId(status);
   			    	w.setComments(comments);
   			    	w.setModifiedDate(now);
   			    	WorkerLocalServiceUtil.updateWorker(w);
@@ -244,7 +244,9 @@ public class WorkerPortlet extends MVCPortlet {
  		
      	try {
  			int end = WorkerLocalServiceUtil.getWorkersCount();
- 			List<Worker> objectList=WorkerLocalServiceUtil.getWorkers(0, end);
+ 			//List<Worker> objectList=WorkerLocalServiceUtil.getWorkers(0, end);
+ 			List<Worker> objectList = WorkerLocalServiceUtil.getWorkersByName("Marc");
+ 			objectList = WorkerLocalServiceUtil.getWorkersByStatusDesc("Active");
  			
  			JSONObject recordsjsonObject=JSONFactoryUtil.createJSONObject();
  			JSONArray rowjsonObject=null;
@@ -266,7 +268,7 @@ public class WorkerPortlet extends MVCPortlet {
  					rowjsonObject.put( String.valueOf( w.getSurname() ) );
  					rowjsonObject.put( String.valueOf( w.getEmail() ) );
  					rowjsonObject.put( String.valueOf( w.getNif() ) );
- 					rowjsonObject.put( String.valueOf( w.getStatus() ) );
+ 					rowjsonObject.put( String.valueOf( w.getStatusId() ) );
 
  					cell.put("id", String.valueOf( w.getWorkerId() ) );
  					cell.put("cell",rowjsonObject);
@@ -279,7 +281,9 @@ public class WorkerPortlet extends MVCPortlet {
  			System.out.println(recordsjsonObject.toString());
      	} catch (SystemException e) {
      		System.out.println("serveResource Error: " + e.getMessage() );
-     	}
+     	} catch (PortalException e1) {
+     		System.out.println("serveResource Error: " + e1.getMessage() );
+		}
   
      }
 
