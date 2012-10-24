@@ -46,7 +46,8 @@ POSSIBILITY OF SUCH DAMAGE.
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.Locale" %>
 
- <portlet:resourceURL var="jqGridResourceURL"></portlet:resourceURL>
+ <portlet:resourceURL id="getWorkersByFiltersJSON" var="jqGridResourceURL"></portlet:resourceURL>
+ 
  <portlet:resourceURL var="jqGridFormResourceURL">
  	<portlet:param name="jspPage" value="/jsp/list.jsp"></portlet:param>
  </portlet:resourceURL>
@@ -85,6 +86,52 @@ POSSIBILITY OF SUCH DAMAGE.
 		<aui:input type="hidden" name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>"/>
 		<input type="hidden" id="workerId" name="workerId" value="" />
 		<input type="hidden" id="jsonWorkerIds" name="jsonWorkerIds" value="" />
+		
+		
+		<aui:layout>
+		<aui:column columnWidth="20" first="true">
+		
+		<aui:fieldset>
+		
+			<aui:input label='<%= res.getString("formlabel.name") %>' id="ftrname" name="ftrname" type="text" value="">
+				<!-- Only allow alphabetical characters -->
+	     		<aui:validator name="alpha" />
+			</aui:input>
+	
+		    <aui:input label='<%= res.getString("formlabel.surname") %>' id="ftrsurname" name="ftrsurname" type="text" value="">
+				<!-- Only allow alphabetical characters -->
+	     		<aui:validator name="alpha" />
+		    </aui:input>
+		    
+		</aui:fieldset>
+		
+		</aui:column>
+		
+		<aui:column columnWidth="20">
+		<aui:fieldset>
+			<aui:input label='<%= res.getString("formlabel.phone") %>' id="ftrphone" name="ftrphone" type="text" value="" >
+				<!-- Only allow numeric format -->
+	     		<aui:validator name="digits" />
+			</aui:input>
+			
+		    <aui:input label='<%= res.getString("formlabel.nif") %>' id="ftrnif" name="ftrnif" type="text" value="" >
+				<!-- Only allow alphabetical characters -->
+	     		<aui:validator name="alphanum" />	     		
+			</aui:input>
+		</aui:fieldset>
+		</aui:column>
+		
+		<aui:column columnWidth="20" last="true">
+		<aui:fieldset>
+		    <aui:input label='<%= res.getString("formlabel.email") %>' id="ftremail" name="ftremail" type="text" value="" >
+				<!-- Only allow email format -->
+	     		<aui:validator name="email" />
+			</aui:input>
+			
+			<aui:button type="button" id="btn_filter" value='<%= res.getString("formlabel.actionfilter") %>' />
+		</aui:fieldset>
+		</aui:column>
+	</aui:layout>
 	
 	<aui:layout>
 	
@@ -139,7 +186,7 @@ POSSIBILITY OF SUCH DAMAGE.
      onSelectRow: function(id){
  			jQuery("#workerId").value = id;
  	 },
-     loadonce: true,
+     loadonce: false,
      caption: "<%= res.getString("jspview.maintitle") %>"
  });
  jQuery("#list1").jqGrid('navGrid','#pager1',
@@ -180,5 +227,24 @@ POSSIBILITY OF SUCH DAMAGE.
 	 }	 
  });
 
+ //filter
+ jQuery("#btn_filter").click( function(){
+	//var ftrDesc = $('#<portlet:namespace/>ftrdesc').val();
+	var ftrNif = $('#<portlet:namespace/>ftrnif').val();
+	var ftrName = $('#<portlet:namespace/>ftrname').val();
+	var ftrSurname = $('#<portlet:namespace/>ftrsurname').val();
+	var ftrEmail = $('#<portlet:namespace/>ftremail').val();
+	var ftrPhone = $('#<portlet:namespace/>ftrphone').val();
+	
+	//var params = '&desc='+ftrDesc+'&nif='+ftrNif+'&name='+ftrName+'&surname='+ftrSurname+'&email='+ftrEmail+'&phone='+ftrPhone;
+	var params = '&nif='+ftrNif+'&name='+ftrName+'&surname='+ftrSurname+'&email='+ftrEmail+'&phone='+ftrPhone;
+	
+	//alert(params);
+	
+	$('#list1').setGridParam({ 
+		 url: '<%=jqGridResourceURL.toString()%>'+params, 
+	});
+	$('#list1').trigger("reloadGrid"); 	 
+ });
 
  </script>

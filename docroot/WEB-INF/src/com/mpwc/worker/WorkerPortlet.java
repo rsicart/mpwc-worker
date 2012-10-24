@@ -242,48 +242,78 @@ public class WorkerPortlet extends MVCPortlet {
      	String jspPage = resourceRequest.getParameter("name");
  		System.out.println("jspPage"+jspPage);
  		
-     	try {
- 			int end = WorkerLocalServiceUtil.getWorkersCount();
- 			//List<Worker> objectList=WorkerLocalServiceUtil.getWorkers(0, end);
- 			List<Worker> objectList = WorkerLocalServiceUtil.getWorkersByName("Marc");
- 			objectList = WorkerLocalServiceUtil.getWorkersByStatusDesc("Active");
+ 		String resourceId = resourceRequest.getResourceID();
+ 		System.out.println("resourceId: "+resourceId);
+ 		
+ 		if( "getWorkersByFiltersJSON".equalsIgnoreCase(resourceId) ){
+	     	
+ 			System.out.println("case: "+resourceId);
  			
- 			JSONObject recordsjsonObject=JSONFactoryUtil.createJSONObject();
- 			JSONArray rowjsonObject=null;
- 			JSONObject cell=null;
- 			JSONArray recordsjsonArray=JSONFactoryUtil.createJSONArray();
- 			
- 			recordsjsonObject.put("page","1");
- 			double total_pages = Math.ceil(objectList.size()/10);
- 			recordsjsonObject.put("total",String.valueOf(total_pages));
- 			recordsjsonObject.put("records ", String.valueOf(objectList.size()));
- 			
- 			if(!objectList.isEmpty()){
- 				for(int i=0;i<objectList.size();i++){    
- 					Worker w = objectList.get(i);
- 					rowjsonObject=JSONFactoryUtil.createJSONArray();
- 					cell=JSONFactoryUtil.createJSONObject();
- 					rowjsonObject.put( String.valueOf( w.getWorkerId() ) );
- 					rowjsonObject.put(String.valueOf( w.getName() ) );
- 					rowjsonObject.put( String.valueOf( w.getSurname() ) );
- 					rowjsonObject.put( String.valueOf( w.getEmail() ) );
- 					rowjsonObject.put( String.valueOf( w.getNif() ) );
- 					rowjsonObject.put( String.valueOf( w.getStatusId() ) );
-
- 					cell.put("id", String.valueOf( w.getWorkerId() ) );
- 					cell.put("cell",rowjsonObject);
- 					recordsjsonArray.put(cell); 
- 				}
-
- 				recordsjsonObject.put("rows",recordsjsonArray);
- 			}
- 			resourceResponse.getWriter().print(recordsjsonObject.toString());
- 			System.out.println(recordsjsonObject.toString());
-     	} catch (SystemException e) {
-     		System.out.println("serveResource Error: " + e.getMessage() );
-     	} catch (PortalException e1) {
-     		System.out.println("serveResource Error: " + e1.getMessage() );
-		}
+ 			try {
+	 			//int end = WorkerLocalServiceUtil.getWorkersCount();
+	 			//List<Worker> objectList=WorkerLocalServiceUtil.getWorkers(0, end);
+	 			//List<Worker> objectList = WorkerLocalServiceUtil.getWorkersByName("Marc");
+	 			//List<Worker> objectList = WorkerLocalServiceUtil.getWorkersByStatusDesc("Active");
+	 			/*
+	 			String desc = "Active";
+	 			desc = null;
+	 			String nif = "39733";
+	 			String name = "R";
+	 			String surname = "S";
+	 			String email = "@";
+	 			String phone = "";
+	 			*/
+	 			
+	 			//get params
+	 			String desc = resourceRequest.getParameter("desc");
+	 			String nif = resourceRequest.getParameter("nif");
+	 			String name = resourceRequest.getParameter("name");
+	 			String surname = resourceRequest.getParameter("surname");
+	 			String email = resourceRequest.getParameter("email");
+	 			String phone = resourceRequest.getParameter("phone");
+	 			
+	 			System.out.println("params-> desc:"+desc+" - nif:"+nif+" - name:"+name+" - surname:"+surname+" - email:"+email+" - phone:"+phone);
+	 			
+	 			//call finder
+	 			List<Worker> objectList = WorkerLocalServiceUtil.getWorkersByFilters(desc, nif, name, surname, email, phone);
+	 			
+	 			JSONObject recordsjsonObject=JSONFactoryUtil.createJSONObject();
+	 			JSONArray rowjsonObject=null;
+	 			JSONObject cell=null;
+	 			JSONArray recordsjsonArray=JSONFactoryUtil.createJSONArray();
+	 			
+	 			recordsjsonObject.put("page","1");
+	 			double total_pages = Math.ceil(objectList.size()/10);
+	 			recordsjsonObject.put("total",String.valueOf(total_pages));
+	 			recordsjsonObject.put("records ", String.valueOf(objectList.size()));
+	 			
+	 			if(!objectList.isEmpty()){
+	 				for(int i=0;i<objectList.size();i++){    
+	 					Worker w = objectList.get(i);
+	 					rowjsonObject=JSONFactoryUtil.createJSONArray();
+	 					cell=JSONFactoryUtil.createJSONObject();
+	 					rowjsonObject.put( String.valueOf( w.getWorkerId() ) );
+	 					rowjsonObject.put(String.valueOf( w.getName() ) );
+	 					rowjsonObject.put( String.valueOf( w.getSurname() ) );
+	 					rowjsonObject.put( String.valueOf( w.getEmail() ) );
+	 					rowjsonObject.put( String.valueOf( w.getNif() ) );
+	 					rowjsonObject.put( String.valueOf( w.getStatusId() ) );
+	
+	 					cell.put("id", String.valueOf( w.getWorkerId() ) );
+	 					cell.put("cell",rowjsonObject);
+	 					recordsjsonArray.put(cell); 
+	 				}
+	
+	 				recordsjsonObject.put("rows",recordsjsonArray);
+	 			}
+	 			resourceResponse.getWriter().print(recordsjsonObject.toString());
+	 			System.out.println(recordsjsonObject.toString());
+	     	} catch (SystemException e) {
+	     		System.out.println("serveResource Error: " + e.getMessage() );
+	     	} catch (PortalException e1) {
+	     		System.out.println("serveResource Error: " + e1.getMessage() );
+			}
+ 		}
   
      }
 
