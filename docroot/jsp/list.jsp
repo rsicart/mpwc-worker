@@ -89,6 +89,7 @@ POSSIBILITY OF SUCH DAMAGE.
 		
 		
 		<aui:layout>
+		
 		<aui:column columnWidth="20" first="true">
 		
 		<aui:fieldset>
@@ -118,10 +119,11 @@ POSSIBILITY OF SUCH DAMAGE.
 				<!-- Only allow alphabetical characters -->
 	     		<aui:validator name="alphanum" />	     		
 			</aui:input>
+			
 		</aui:fieldset>
 		</aui:column>
-		
-		<aui:column columnWidth="20" last="true">
+
+		<aui:column columnWidth="60" last="true">
 		<aui:fieldset>
 		    <aui:input label='<%= res.getString("formlabel.email") %>' id="ftremail" name="ftremail" type="text" value="" >
 				<!-- Only allow email format -->
@@ -129,13 +131,15 @@ POSSIBILITY OF SUCH DAMAGE.
 			</aui:input>
 			
 			<aui:button type="button" id="btn_filter" value='<%= res.getString("formlabel.actionfilter") %>' />
+					
 		</aui:fieldset>
 		</aui:column>
+		
 	</aui:layout>
 	
 	<aui:layout>
 	
-	<aui:column columnWidth="90" first="true">
+	<aui:column columnWidth="80" first="true">
 		
 		<!-- Grid begin -->
 		<table id="list1"></table>
@@ -146,13 +150,13 @@ POSSIBILITY OF SUCH DAMAGE.
  	
  	</aui:column>
  	
- 	<aui:column columnWidth="10" last="true">
+ 	<aui:column columnWidth="20" last="true">
  	
 	 	<aui:fieldset>
 
-	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' />
-	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' />	 	
-	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' />
+	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
+	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' inlineField="false" />	 	
+	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' inlineField="false" />
 	 	
 	 	</aui:fieldset>
  	
@@ -190,11 +194,11 @@ POSSIBILITY OF SUCH DAMAGE.
      caption: "<%= res.getString("jspview.maintitle") %>"
  });
  jQuery("#list1").jqGrid('navGrid','#pager1',
-  {edit:false,add:false,del:false},
+  {edit:false,add:false,del:false,search:false},
   {},
   {},
   {},
-  {multipleSearch:true, multipleGroup:true}
+  {multipleSearch:false, multipleGroup:false}
   );
  
  //////buttons
