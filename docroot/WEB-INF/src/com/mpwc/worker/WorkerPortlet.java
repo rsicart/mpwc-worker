@@ -55,6 +55,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.mpwc.model.Worker;
 import com.mpwc.service.WorkerLocalServiceUtil;
@@ -67,6 +69,8 @@ public class WorkerPortlet extends MVCPortlet {
     public void addWorker(ActionRequest actionRequest, ActionResponse actionResponse)
    	       throws IOException, PortletException{
      	
+    	ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+    	
      	String name = actionRequest.getParameter("name");
      	String surname = actionRequest.getParameter("surname");
      	String nif = actionRequest.getParameter("nif");
@@ -95,7 +99,14 @@ public class WorkerPortlet extends MVCPortlet {
  		    	if( status > 0 ){ w.setStatusId(status); }
  		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
  		    	w.setCreateDate(now);
+ 		    	
+ 				//w.setUserName(themeDisplay.getUserName());
+ 				w.setCompanyId(themeDisplay.getCompanyId());
+ 				w.setGroupId(themeDisplay.getCompanyGroupId());
+ 				w.setUserId(themeDisplay.getUserId());
+ 		    	
  		    	WorkerLocalServiceUtil.addWorker(w);
+ 		    	//WorkerLocalServiceUtil.addWorker(w, themeDisplay.getUserId());
  			} catch (SystemException e) {
  				System.out.println("addWorker exception:" + e.getMessage());
  			}
