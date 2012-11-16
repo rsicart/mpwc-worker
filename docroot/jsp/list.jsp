@@ -38,13 +38,33 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 -->
 
+<%@page import="com.mpwc.service.persistence.WorkerFinderUtil"%>
+<%@page import="com.mpwc.service.persistence.WorkerFinder"%>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.Validator" %>
+
+<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
+<%@ taglib uri="http://liferay.com/tld/security" prefix="liferay-security" %>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
+<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
+
+<%@ page import="com.liferay.portal.security.permission.ActionKeys" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+<%@ page import="com.liferay.portal.service.permission.PortalPermissionUtil" %>
+<%@ page import="com.liferay.portal.service.permission.PortletPermissionUtil" %>
+<%@ page import="com.mpwc.model.Worker" %>
+
 <%@ page import="javax.portlet.PortletPreferences" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="com.mpwc.model.Worker" %>
+<%@ page import="com.mpwc.service.WorkerLocalServiceUtil" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
+<%@ page import="com.liferay.portal.kernel.exception.SystemException" %>
 
  <portlet:resourceURL id="getWorkersByFiltersJSON" var="jqGridResourceURL"></portlet:resourceURL>
  
@@ -53,13 +73,35 @@ POSSIBILITY OF SUCH DAMAGE.
  </portlet:resourceURL>
  
  <portlet:defineObjects />
+ <liferay-theme:defineObjects />
  
  <%
- Locale locale = request.getLocale();
+ locale = request.getLocale();
  String language = locale.getLanguage();
  String country = locale.getCountry();
 
  ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
+ 
+ long groupId = themeDisplay.getLayout().getGroupId();
+ String name = Worker.class.getName();
+ long primKey = 0;
+ 
+ List<Worker> ls;
+ try{
+	//find worker from liferay data
+ 	ls = WorkerLocalServiceUtil.findByG_U(groupId, themeDisplay.getUserId());
+ 
+	 System.out.println("list.jsp: "+ ls.size() +" - grouId:"+groupId+" - userId:"+themeDisplay.getUserId()+" - realUserId:"+themeDisplay.getRealUserId());
+	 
+	 if( ls.size()>0 ){
+		 Worker w = ls.get(0); //first element
+		 primKey = w.getWorkerId();
+	 }
+	 
+ } catch(Exception e){
+	 System.out.println("Error list.jsp:"+e.getMessage()+" - grouId:"+groupId+" - userId:"+themeDisplay.getUserId()+" - realUserId:"+themeDisplay.getRealUserId());
+ }
+ 
  %>
  
  <script type="text/javascript">
@@ -153,7 +195,15 @@ POSSIBILITY OF SUCH DAMAGE.
  	<aui:column columnWidth="20" last="true">
  	
 	 	<aui:fieldset>
+	 	
+	 	 <c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.UPDATE) %>">
 
+	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
+	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' inlineField="false" />	 	
+	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' inlineField="false" />
+	 	
+	 	</c:if>
+	 	
 	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
 	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' inlineField="false" />	 	
 	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' inlineField="false" />
