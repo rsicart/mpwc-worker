@@ -105,11 +105,13 @@ public class WorkerPortlet extends MVCPortlet {
  				w.setGroupId(themeDisplay.getCompanyGroupId());
  				w.setUserId(themeDisplay.getUserId());
  		    	
- 		    	WorkerLocalServiceUtil.addWorker(w);
- 		    	//WorkerLocalServiceUtil.addWorker(w, themeDisplay.getUserId());
+ 		    	//WorkerLocalServiceUtil.addWorker(w);
+ 		    	WorkerLocalServiceUtil.addWorker(w, themeDisplay.getUserId());
  			} catch (SystemException e) {
  				System.out.println("addWorker exception:" + e.getMessage());
- 			}
+ 			} catch (PortalException e) {
+ 				System.out.println("addWorker exception2:" + e.getMessage());
+			}
 
      	}
 
