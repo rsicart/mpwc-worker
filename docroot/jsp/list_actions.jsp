@@ -51,16 +51,18 @@ String primKey = String.valueOf(w.getPrimaryKey());
 <liferay-ui:icon-menu>
 
 <c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.UPDATE) %>">
-	<portlet:actionURL name="editWorker" var="editURL">
-		<portlet:param name="resourcePrimKey" value="<%=primKey %>" />
-	</portlet:actionURL>
+	<portlet:renderURL var="editURL">
+		<portlet:param name="jspPage" value="/jsp/edit.jsp" />
+		<portlet:param name="workerId" value="<%=primKey %>" />
+	</portlet:renderURL>
 	
 	<liferay-ui:icon image="edit" message="Edit" url="<%= editURL.toString() %>" />
 </c:if>
 
 <c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.DELETE) %>">
 	<portlet:actionURL name="deleteWorker" var="deleteURL">
-		<portlet:param name="resourcePrimKey" value="<%=primKey %>" />
+		<portlet:param name="workerId" value="<%=primKey %>" />
+		<portlet:param name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>" />
 	</portlet:actionURL>
 	
 	<liferay-ui:icon-delete url="<%= deleteURL.toString() %>" />
