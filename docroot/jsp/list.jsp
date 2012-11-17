@@ -210,25 +210,41 @@ POSSIBILITY OF SUCH DAMAGE.
  });
  
  //edit
- jQuery("#btn_edit").click( function(){
+ jQuery("#btn_edit").click( function(e){
 	 var myGrid = $('#list1'),
 	 selRowId = myGrid.jqGrid ('getGridParam', 'selrow'),
 	 celValue = myGrid.jqGrid ('getCell', selRowId, 'id');
 	 $('#workerId').val(celValue);
 	 
-	 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-	 $(fullid).attr("action","<%= editWorkerCheckbox %>");	 
+	 //check if there is a row selected
+	 if (typeof celValue != 'undefined'){
+		 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+		 $(fullid).attr("action","<%= editWorkerCheckbox %>");
+	 }  
+	 alert("<%= res.getString("jspview.dialog.selectfirst") %>");
+	 e.preventDefault(); //cancel redirect to edit page
  });
  
  //delete
- jQuery("#btn_delete").click( function(){
+ jQuery("#btn_delete").click( function(e){
 	 var myGrid = $('#list1'),
 	 selArrRowIds = "["+myGrid.getGridParam('selarrrow')+"]";
 	 $('#jsonWorkerIds').val(selArrRowIds);
-	 if( confirm("<%= res.getString("jspview.dialog.areyouusure") %>") ){
-		 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-		 $(fullid).attr("action","<%= deleteWorkersURL %>"); 
-	 }	 
+	 
+	//check if there is a row selected
+	 if ( selArrRowIds.length <= 2 ){	
+		 alert("<%= res.getString("jspview.dialog.selectfirst") %>");
+		 e.preventDefault(); //cancel delete action
+	 }
+	 else{
+		 if( confirm("<%= res.getString("jspview.dialog.areyouusure") %>") ){
+				 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+				 $(fullid).attr("action","<%= deleteWorkersURL %>"); 
+		 }
+		 else{
+			 e.preventDefault(); //cancel delete action
+		 }
+	 }
  });
 
  //filter
