@@ -83,24 +83,18 @@ POSSIBILITY OF SUCH DAMAGE.
  ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
  
  long groupId = themeDisplay.getLayout().getGroupId();
+ //portlet permissions
+ String namePortlet = portletDisplay.getId(); //default value
+ String primKeyPortlet = "workerportlet"; //portlet name
+ 
+ //portlet actions available (see resource-actions/default.xml)
+ String permAddWorker = "ADD_WORKER";
+ String permUpdateWorker = "UPDATE_WORKER";
+ String permDeleteWorker = "DELETE_WORKER";
+ 
+ //user permissions
  String name = Worker.class.getName();
- long primKey = 0;
- 
- List<Worker> ls;
- try{
-	//find worker from liferay data
- 	ls = WorkerLocalServiceUtil.findByG_U(groupId, themeDisplay.getUserId());
- 
-	 System.out.println("list.jsp: "+ ls.size() +" - grouId:"+groupId+" - userId:"+themeDisplay.getUserId()+" - realUserId:"+themeDisplay.getRealUserId());
-	 
-	 if( ls.size()>0 ){
-		 Worker w = ls.get(0); //first element
-		 primKey = w.getWorkerId();
-	 }
-	 
- } catch(Exception e){
-	 System.out.println("Error list.jsp:"+e.getMessage()+" - grouId:"+groupId+" - userId:"+themeDisplay.getUserId()+" - realUserId:"+themeDisplay.getRealUserId());
- }
+ long primKey = groupId;
  
  %>
  
@@ -196,17 +190,18 @@ POSSIBILITY OF SUCH DAMAGE.
  	
 	 	<aui:fieldset>
 	 	
-	 	 <c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.UPDATE) %>">
-
-	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
-	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' inlineField="false" />	 	
-	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' inlineField="false" />
-	 	
+	 	<c:if test="<%= permissionChecker.hasPermission(groupId, namePortlet, primKeyPortlet, permAddWorker) %>">
+	 		<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
 	 	</c:if>
 	 	
-	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
-	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' inlineField="false" />	 	
-	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' inlineField="false" />
+	 	<c:if test="<%= permissionChecker.hasPermission(groupId, namePortlet, primKeyPortlet, permUpdateWorker) %>">
+	 		<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' inlineField="false" />
+	 	</c:if>
+	 	
+	 	<c:if test="<%= permissionChecker.hasPermission(groupId, namePortlet, primKeyPortlet, permDeleteWorker) %>">	 	
+	 		<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' inlineField="false" />
+	 	</c:if>
+	 	
 	 	
 	 	</aui:fieldset>
  	
@@ -260,25 +255,41 @@ POSSIBILITY OF SUCH DAMAGE.
  });
  
  //edit
- jQuery("#btn_edit").click( function(){
+ jQuery("#btn_edit").click( function(e){
 	 var myGrid = $('#list1'),
 	 selRowId = myGrid.jqGrid ('getGridParam', 'selrow'),
 	 celValue = myGrid.jqGrid ('getCell', selRowId, 'id');
 	 $('#workerId').val(celValue);
 	 
-	 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-	 $(fullid).attr("action","<%= editWorkerCheckbox %>");	 
+	 //check if there is a row selected
+	 if (typeof celValue != 'undefined'){
+		 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+		 $(fullid).attr("action","<%= editWorkerCheckbox %>");
+	 }  
+	 alert("<%= res.getString("jspview.dialog.selectfirst") %>");
+	 e.preventDefault(); //cancel redirect to edit page
  });
  
  //delete
- jQuery("#btn_delete").click( function(){
+ jQuery("#btn_delete").click( function(e){
 	 var myGrid = $('#list1'),
 	 selArrRowIds = "["+myGrid.getGridParam('selarrrow')+"]";
 	 $('#jsonWorkerIds').val(selArrRowIds);
-	 if( confirm("<%= res.getString("jspview.dialog.areyouusure") %>") ){
-		 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-		 $(fullid).attr("action","<%= deleteWorkersURL %>"); 
-	 }	 
+	 
+	//check if there is a row selected
+	 if ( selArrRowIds.length <= 2 ){	
+		 alert("<%= res.getString("jspview.dialog.selectfirst") %>");
+		 e.preventDefault(); //cancel delete action
+	 }
+	 else{
+		 if( confirm("<%= res.getString("jspview.dialog.areyouusure") %>") ){
+				 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+				 $(fullid).attr("action","<%= deleteWorkersURL %>"); 
+		 }
+		 else{
+			 e.preventDefault(); //cancel delete action
+		 }
+	 }
  });
 
  //filter

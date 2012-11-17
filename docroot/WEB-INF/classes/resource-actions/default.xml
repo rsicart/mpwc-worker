@@ -7,6 +7,8 @@
 		<permissions>
 			<supports>
 				<action-key>ADD_WORKER</action-key>
+				<action-key>UPDATE_WORKER</action-key>
+				<action-key>DELETE_WORKER</action-key>
 				<action-key>VIEW</action-key>
 			</supports>
 			<site-member-defaults>
@@ -19,6 +21,8 @@
 			
 			<guest-unsupported>
 				<action-key>ADD_WORKER</action-key>
+				<action-key>UPDATE_WORKER</action-key>
+				<action-key>DELETE_WORKER</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
