@@ -45,6 +45,7 @@ import java.util.List;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletSession;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
@@ -247,6 +248,32 @@ public class WorkerPortlet extends MVCPortlet {
   	 	actionResponse.sendRedirect(redirectURL);
 
       }
+     
+     public void getWorkersByFilters(ActionRequest actionRequest, ActionResponse actionResponse)
+     	       throws IOException, PortletException{
+    	 try{
+ 			//get params
+ 			String desc = actionRequest.getParameter("ftrdesc");
+ 			String nif = actionRequest.getParameter("ftrnif");
+ 			String name = actionRequest.getParameter("ftrname");
+ 			String surname = actionRequest.getParameter("ftrsurname");
+ 			String email = actionRequest.getParameter("ftremail");
+ 			String phone = actionRequest.getParameter("ftrphone");
+ 			
+ 			System.out.println("getWorkersByFilters params-> desc:"+desc+" - nif:"+nif+" - name:"+name+" - surname:"+surname+" - email:"+email+" - phone:"+phone);
+ 			
+ 			//set session params
+ 			actionRequest.getPortletSession().setAttribute("ftrDesc", desc, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrNif", nif, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrName", name, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrSurname", desc, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrEmail", desc, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrPhone", desc, PortletSession.PORTLET_SCOPE);			
+ 			
+    	 } catch (Exception e) {
+	     		System.out.println("Action getWorkersByFilters Error: " + e.getMessage() );
+	     }
+     }
      
      
      public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)

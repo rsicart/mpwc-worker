@@ -38,35 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 -->
 
-<%@page import="com.mpwc.service.persistence.WorkerFinderUtil"%>
-<%@page import="com.mpwc.service.persistence.WorkerFinder"%>
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-
-<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
-<%@ taglib uri="http://liferay.com/tld/security" prefix="liferay-security" %>
-<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
-<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
-<%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
-
-<%@ page import="com.liferay.portal.security.permission.ActionKeys" %>
-<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
-<%@ page import="com.liferay.portal.service.permission.PortalPermissionUtil" %>
-<%@ page import="com.liferay.portal.service.permission.PortletPermissionUtil" %>
-<%@ page import="com.mpwc.model.Worker" %>
-
-<%@ page import="javax.portlet.PortletPreferences" %>
-<%@ page import="java.util.ResourceBundle" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="com.mpwc.service.WorkerLocalServiceUtil" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
-<%@ page import="com.liferay.portal.kernel.exception.SystemException" %>
-
- <portlet:defineObjects />
- <liferay-theme:defineObjects />
+<%@include file="/jsp/init.jsp" %>
 
  <portlet:resourceURL id="getWorkersByFiltersJSON" var="jqGridResourceURL"></portlet:resourceURL>
  

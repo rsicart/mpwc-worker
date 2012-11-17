@@ -38,19 +38,10 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 -->
 
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.Validator" %>
-<%@ page import="javax.portlet.PortletPreferences" %>
-<%@ page import="java.util.ResourceBundle" %>
-<%@ page import="java.util.Locale" %>
-
-<portlet:defineObjects />
+<%@include file="/jsp/init.jsp" %>
 
 <% 
-Locale locale = request.getLocale();
+locale = request.getLocale();
 String language = locale.getLanguage();
 String country = locale.getCountry();
 
@@ -60,7 +51,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 <p><b><%= res.getString("jspadd.maintitle") %></b></p>
 
 <portlet:actionURL var="addWorkerURL" name="addWorker">
-    <portlet:param name="mvcPath" value="/jsp/list.jsp" />
+    <portlet:param name="mvcPath" value="/jsp/view.jsp" />
 </portlet:actionURL>
 
 <aui:form name="frm_add_worker" action="<%= addWorkerURL %>" method="post">
@@ -116,9 +107,20 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 			</aui:input>
 			
 			<aui:select label='<%= res.getString("formlabel.status") %>' name="status">
+				<aui:option value="-1">
+					<liferay-ui:message key="please-choose" />
+				</aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.active") %>' value="1"></aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.inactive") %>' value="2"></aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.bloqued") %>' value="3"></aui:option>
+				<% 
+					List<Status> lsStatus = StatusLocalServiceUtil.getStatuses(0, 2);
+					for (Status status : lsStatus){
+				%>
+					<aui:option value="<%= status.getPrimaryKey() %>"> <%= status.getDesc_es_ES() %> </aui:option>
+				<% 
+					}
+				%>
 			</aui:select>
 			
 		</aui:fieldset>
@@ -132,7 +134,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 
 
 <portlet:renderURL var="listURL">
-    <portlet:param name="mvcPath" value="/jsp/list.jsp" />
+    <portlet:param name="mvcPath" value="/jsp/view.jsp" />
 </portlet:renderURL>
 
 <p><a href="<%= listURL %>">&larr; Back</a></p>
