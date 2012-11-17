@@ -38,38 +38,32 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 -->
 
-<%@include file="/jsp/init.jsp" %>
- 
- <%
- String error2 = "";
- try{
-	 %>
-	<liferay-ui:search-container delta="5">
-	
-	<liferay-ui:search-container-results>
-	<% 
-		List<Worker> tempResults = WorkerLocalServiceUtil.getWorkersByFilters("", "", "", "", "", "");
-		results = ListUtil.subList(tempResults, searchContainer.getStart(),searchContainer.getEnd());
-		total = tempResults.size();
-		pageContext.setAttribute("results", results);
-		pageContext.setAttribute("total",total);
-	 %>	
-	 </liferay-ui:search-container-results>
-	 
-	 <liferay-ui:search-container-row className="com.mpwc.model.Worker" keyProperty="workerId" modelVar="worker">
-	 	<liferay-ui:search-container-column-text name="Name" property="name" />
-	 	<liferay-ui:search-container-column-text name="Surame" property="surname" />
-	 	<liferay-ui:search-container-column-text name="Nif" property="nif" />
-	 	<liferay-ui:search-container-column-text name="Email" property="email" />
-	 	<liferay-ui:search-container-column-jsp path="/jsp/list_actions.jsp" align="right" />
-	 </liferay-ui:search-container-row>
-	 
-	 <liferay-ui:search-iterator />
-	 
-	 </liferay-ui:search-container>
-	 <%
- } catch (Exception e2) {
-		error2 = e2.getMessage();
-		System.out.println("Error2 view.jsp: "+error2);
- }
+<%@include file="/jsp/init.jsp"%>
+
+<%
+ResultRow row = (ResultRow) request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
+Worker w = (Worker) row.getObject();
+long groupId = themeDisplay.getLayout().getGroupId();
+String name = Worker.class.getName();
+String primKey = String.valueOf(w.getPrimaryKey());
 %>
+
+<liferay-ui:icon-menu>
+
+<c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.UPDATE) %>">
+	<portlet:actionURL name="editWorker" var="editURL">
+		<portlet:param name="resourcePrimKey" value="<%=primKey %>" />
+	</portlet:actionURL>
+	
+	<liferay-ui:icon image="edit" message="Edit" url="<%= editURL.toString() %>" />
+</c:if>
+
+<c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.DELETE) %>">
+	<portlet:actionURL name="deleteWorker" var="deleteURL">
+		<portlet:param name="resourcePrimKey" value="<%=primKey %>" />
+	</portlet:actionURL>
+	
+	<liferay-ui:icon-delete url="<%= deleteURL.toString() %>" />
+</c:if>
+
+</liferay-ui:icon-menu>

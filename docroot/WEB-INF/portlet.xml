@@ -8,7 +8,7 @@
 		<portlet-class>com.mpwc.worker.WorkerPortlet</portlet-class>
 		<init-param>
 			<name>view-template</name>
-			<value>/jsp/list.jsp</value>
+			<value>/jsp/view.jsp</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>

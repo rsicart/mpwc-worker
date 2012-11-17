@@ -60,11 +60,13 @@ POSSIBILITY OF SUCH DAMAGE.
 <%@ page import="javax.portlet.PortletPreferences" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="com.mpwc.model.Worker" %>
 <%@ page import="com.mpwc.service.WorkerLocalServiceUtil" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.liferay.portal.kernel.exception.PortalException" %>
 <%@ page import="com.liferay.portal.kernel.exception.SystemException" %>
+
+ <portlet:defineObjects />
+ <liferay-theme:defineObjects />
 
  <portlet:resourceURL id="getWorkersByFiltersJSON" var="jqGridResourceURL"></portlet:resourceURL>
  
@@ -72,8 +74,7 @@ POSSIBILITY OF SUCH DAMAGE.
  	<portlet:param name="jspPage" value="/jsp/list.jsp"></portlet:param>
  </portlet:resourceURL>
  
- <portlet:defineObjects />
- <liferay-theme:defineObjects />
+
  
  <%
  locale = request.getLocale();
