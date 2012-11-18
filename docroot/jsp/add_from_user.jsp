@@ -79,7 +79,7 @@ long roleId = mpwcUserRole.getRoleId();
 	 
 	 <liferay-ui:search-container-row className="com.liferay.portal.model.User" keyProperty="userId" modelVar="user">
 	 	<liferay-ui:search-container-column-text name="Name" property="firstName" />
-	 	<liferay-ui:search-container-column-text name="Surame" property="lastName" />
+	 	<liferay-ui:search-container-column-text name="Surname" property="lastName" />
 	 	<liferay-ui:search-container-column-text name="Email" property="emailAddress" />
 	 	<liferay-ui:search-container-column-jsp path="/jsp/add_actions.jsp" align="right" />
 	 </liferay-ui:search-container-row>
