@@ -46,6 +46,25 @@ String language = locale.getLanguage();
 String country = locale.getCountry();
 
 ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
+
+String name = "";
+String surname = "";
+String email = "";
+long userId = Long.valueOf(request.getParameter("liferayUserId"));
+
+try{
+	User lfUser = UserLocalServiceUtil.getUser(userId);
+	
+	if(lfUser != null){
+		name = lfUser.getFirstName();
+		surname = lfUser.getLastName();
+		email = lfUser.getEmailAddress();
+	}
+	
+} catch(Exception e){
+	System.out.println("Error add.jsp: wrong userId"+e.getMessage());
+}
+
 %>
 
 <p><b><%= res.getString("jspadd.maintitle") %></b></p>
@@ -57,6 +76,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 <aui:form name="frm_add_worker" action="<%= addWorkerURL %>" method="post">
 	
 	<aui:input type="hidden" name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>"/>
+	<aui:input type="hidden" name="liferayUserId" value="<%= userId %>"/>
 
 	<aui:layout>
  		
@@ -64,13 +84,13 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
  	
  		<aui:fieldset>
 
-			<aui:input label='<%= res.getString("formlabel.name") %>' name="name" type="text" value="">
+			<aui:input label='<%= res.getString("formlabel.name") %>' name="name" type="text" value="<%= name %>">
 				<aui:validator name="required" />
 				<!-- Only allow alphabetical characters -->
 	     		<aui:validator name="alpha" />
 			</aui:input>
 	
-		    <aui:input label='<%= res.getString("formlabel.surname") %>' name="surname" type="text" value="">
+		    <aui:input label='<%= res.getString("formlabel.surname") %>' name="surname" type="text" value="<%= surname %>">
 		    	<aui:validator name="required" />
 				<!-- Only allow alphabetical characters -->
 	     		<aui:validator name="alpha" />
@@ -100,7 +120,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 	     		<aui:validator name="alphanum" />	     		
 			</aui:input>
 			
-		    <aui:input label='<%= res.getString("formlabel.email") %>' name="email" type="text" value="" >
+		    <aui:input label='<%= res.getString("formlabel.email") %>' name="email" type="text" value="<%= email %>" >
 				<aui:validator name="required" />
 				<!-- Only allow email format -->
 	     		<aui:validator name="email" />
@@ -113,14 +133,6 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 				<aui:option label='<%= res.getString("formlabel.option.active") %>' value="1"></aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.inactive") %>' value="2"></aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.bloqued") %>' value="3"></aui:option>
-				<% 
-					List<Status> lsStatus = StatusLocalServiceUtil.getStatuses(0, 2);
-					for (Status status : lsStatus){
-				%>
-					<aui:option value="<%= status.getPrimaryKey() %>"> <%= status.getDesc_es_ES() %> </aui:option>
-				<% 
-					}
-				%>
 			</aui:select>
 			
 		</aui:fieldset>

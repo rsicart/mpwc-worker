@@ -95,7 +95,7 @@ POSSIBILITY OF SUCH DAMAGE.
 	 %>
 	
 	<portlet:renderURL var="addWorkerURL">
-	   <portlet:param name="mvcPath" value="/jsp/add.jsp" />
+	   <portlet:param name="mvcPath" value="/jsp/add_from_user.jsp" />
 	</portlet:renderURL>
 	
 	<portlet:actionURL var="filterURL" name="getWorkersByFilters">

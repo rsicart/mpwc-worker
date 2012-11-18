@@ -57,6 +57,10 @@ POSSIBILITY OF SUCH DAMAGE.
 <%@ page import="com.liferay.portal.kernel.dao.search.SearchEntry" %>
 <%@ page import="com.liferay.portal.service.permission.PortalPermissionUtil" %>
 <%@ page import="com.liferay.portal.service.permission.PortletPermissionUtil" %>
+<%@ page import="com.liferay.portal.service.UserLocalServiceUtil" %>
+<%@ page import="com.liferay.portal.service.RoleLocalServiceUtil" %>
+<%@ page import="com.liferay.portal.model.User" %>
+<%@ page import="com.liferay.portal.model.Role" %>
 
 <%@ page import="com.mpwc.model.Worker" %>
 <%@ page import="com.mpwc.model.Status" %>

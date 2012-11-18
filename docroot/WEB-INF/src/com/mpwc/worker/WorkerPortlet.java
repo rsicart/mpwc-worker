@@ -72,6 +72,7 @@ public class WorkerPortlet extends MVCPortlet {
      	
     	ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
     	
+    	long liferayUserId = Long.parseLong(actionRequest.getParameter("liferayUserId"));
      	String name = actionRequest.getParameter("name");
      	String surname = actionRequest.getParameter("surname");
      	String nif = actionRequest.getParameter("nif");
@@ -103,11 +104,15 @@ public class WorkerPortlet extends MVCPortlet {
  		    	
  				//w.setUserName(themeDisplay.getUserName());
  				w.setCompanyId(themeDisplay.getCompanyId());
- 				w.setGroupId(themeDisplay.getCompanyGroupId());
- 				w.setUserId(themeDisplay.getUserId());
+ 				//w.setGroupId(themeDisplay.getCompanyGroupId());
+ 				w.setGroupId(themeDisplay.getScopeGroupId());
+ 				w.setUserId(liferayUserId);
  		    	
  		    	//WorkerLocalServiceUtil.addWorker(w);
- 		    	WorkerLocalServiceUtil.addWorker(w, themeDisplay.getUserId());
+ 		    	WorkerLocalServiceUtil.addWorker(w, liferayUserId);
+ 		    	
+ 		    	System.out.println("addWorker userId" + liferayUserId + "groupId:" + w.getGroupId() + "companyId:" + w.getCompanyId());
+ 		    	
  			} catch (SystemException e) {
  				System.out.println("addWorker exception:" + e.getMessage());
  			} catch (PortalException e) {
