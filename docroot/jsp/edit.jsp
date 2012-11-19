@@ -139,7 +139,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 
 
 <portlet:renderURL var="listURL">
-    <portlet:param name="mvcPath" value="/jsp/list.jsp" />
+    <portlet:param name="mvcPath" value="/jsp/view.jsp" />
 </portlet:renderURL>
 
 <p><a href="<%= listURL %>">&larr; Back</a></p>
