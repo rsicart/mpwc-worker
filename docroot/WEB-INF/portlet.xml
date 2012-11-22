@@ -15,7 +15,11 @@
 			<mime-type>text/html</mime-type>
 			<portlet-mode>view</portlet-mode>
 		</supports>
-		<resource-bundle>content.Language-ext</resource-bundle>
+		<supported-locale>es_ES</supported-locale>
+		<supported-locale>ca_ES</supported-locale>
+		<resource-bundle>
+			content.Language-ext
+		</resource-bundle>
 		<portlet-info>
 			<title>WorkerPortlet</title>
 			<short-title>WorkerPortlet</short-title>
