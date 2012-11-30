@@ -170,7 +170,7 @@ public class WorkerPortlet extends MVCPortlet {
      }
      
      public void deleteWorker(ActionRequest actionRequest, ActionResponse actionResponse)
-  	       throws IOException, PortletException {
+  	       throws IOException, PortletException, PortalException, SystemException {
   	
  	    //Do not delete, mark as deleted
      	
@@ -181,7 +181,8 @@ public class WorkerPortlet extends MVCPortlet {
  	 	Date now = new Date();
  	 	
  	 	if( workerId > 0 ){
- 	 		
+ 	 			/* 
+ 	 			//Dont delete, update status to bloqued
  		    	Worker w;
  				try {			
  					w = WorkerLocalServiceUtil.getWorker(workerId);
@@ -194,7 +195,12 @@ public class WorkerPortlet extends MVCPortlet {
  				} catch (PortalException e) {
  					System.out.println("deleteWorker exception:" + e.getMessage());
  				}
- 	
+ 				*/
+ 	 			try{
+ 	 				WorkerLocalServiceUtil.deleteWorker(workerId);
+ 	 			} catch (SystemException e) {
+ 	 				System.out.println("deleteWorker exception:" + e.getMessage());
+ 	 			}
  	 	}
  	
  	 	// gracefully redirecting to the default portlet view

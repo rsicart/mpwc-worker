@@ -38,28 +38,17 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 -->
 
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@ page import="com.liferay.portal.kernel.util.Validator" %>
-<%@ page import="javax.portlet.PortletPreferences" %>
-<%@ page import="com.mpwc.model.Worker" %>
-<%@ page import="com.mpwc.service.WorkerLocalServiceUtil" %>
-<%@ page import="java.util.ResourceBundle" %>
-<%@ page import="java.util.Locale" %>
-
-<portlet:defineObjects />
+<%@include file="/jsp/init.jsp" %>
 
 <% 
-Locale locale = request.getLocale();
+locale = request.getLocale();
 String language = locale.getLanguage();
 String country = locale.getCountry();
 
 ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
 %>
 
-<p><b><%= res.getString("jspedit.maintitle") %></b></p>
+<h1><%= res.getString("jspedit.maintitle") %></h1>
 
 <%
 	long workerId = Long.valueOf( renderRequest.getParameter("workerId") );
@@ -133,6 +122,53 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 	</aui:column>
 	
    </aui:layout>
+   
+	<aui:layout>
+	
+	<aui:column columnWidth="45" first="true">
+	
+	<h2><%= res.getString("jspedit.worker.projectlist") %></h2>
+	
+	<!-- workers project list grid -->
+	 
+	<liferay-ui:search-container delta="5" emptyResultsMessage="jspedit-message-noworkers">
+	
+	<liferay-ui:search-container-results>
+	<% 
+	try{
+		List<Project> workerResults = WorkerLocalServiceUtil.getProjects(w.getWorkerId());
+		results = ListUtil.subList(workerResults, searchContainer.getStart(),searchContainer.getEnd());
+		total = workerResults.size();
+		pageContext.setAttribute("results", results);
+		pageContext.setAttribute("total",total);
+		System.out.println("edit.jsp total: "+total);
+	} catch(Exception e){
+		System.out.println("edit.jsp exception: "+e.getMessage());
+		e.printStackTrace();
+	}
+	 %>	
+	 </liferay-ui:search-container-results>
+	 
+	 <liferay-ui:search-container-row className="com.mpwc.model.Project" keyProperty="projectId" modelVar="project">
+	 	<liferay-ui:search-container-column-text name="Name" property="name" />
+	 	<liferay-ui:search-container-column-text name="Type" property="type" />
+
+
+	 </liferay-ui:search-container-row>
+	 
+	 <liferay-ui:search-iterator />
+	 
+	 </liferay-ui:search-container>
+	 
+	 <!-- end workers project list grid -->
+ 	
+ 	</aui:column>		
+ 	
+ 	<aui:column columnWidth="45" last="true">
+ 	
+ 	</aui:column>
+ 	
+ 	</aui:layout>
 
    <aui:button type="submit" />
 </aui:form>
