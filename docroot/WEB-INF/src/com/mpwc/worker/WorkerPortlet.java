@@ -181,26 +181,12 @@ public class WorkerPortlet extends MVCPortlet {
  	 	Date now = new Date();
  	 	
  	 	if( workerId > 0 ){
- 	 			/* 
- 	 			//Dont delete, update status to bloqued
- 		    	Worker w;
- 				try {			
- 					w = WorkerLocalServiceUtil.getWorker(workerId);
- 			    	w.setStatusId(status);
- 			    	w.setComments(comments);
- 			    	w.setModifiedDate(now);
- 			    	WorkerLocalServiceUtil.updateWorker(w);
- 				} catch (SystemException e) {
- 					System.out.println("deleteWorker exception:" + e.getMessage());
- 				} catch (PortalException e) {
- 					System.out.println("deleteWorker exception:" + e.getMessage());
- 				}
- 				*/
- 	 			try{
- 	 				WorkerLocalServiceUtil.deleteWorker(workerId);
- 	 			} catch (SystemException e) {
- 	 				System.out.println("deleteWorker exception:" + e.getMessage());
- 	 			}
+ 			try{
+ 				WorkerLocalServiceUtil.deleteWorker(workerId);
+ 				//WorkerLocalServiceUtil.delete(workerId);
+ 			} catch (SystemException e) {
+ 				System.out.println("deleteWorker exception:" + e.getMessage());
+ 			}
  	 	}
  	
  	 	// gracefully redirecting to the default portlet view
@@ -286,7 +272,9 @@ public class WorkerPortlet extends MVCPortlet {
 	     }
      }
      
-     
+     /*
+      * action used to serve data to AJAX requests (i.e. jqgrid requests)
+      * */
      public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
      		throws IOException, PortletException {
 
