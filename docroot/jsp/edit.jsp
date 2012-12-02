@@ -96,7 +96,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 	
 	</aui:column>
 	
-	<aui:column columnWidth="25" first="true">
+	<aui:column columnWidth="25" >
 	
 		<aui:fieldset>
 		
