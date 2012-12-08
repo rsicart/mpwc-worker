@@ -51,9 +51,14 @@ Role mpwcUserRole = RoleLocalServiceUtil.getDefaultGroupRole(themeDisplay.getSco
 //mpwcUserRole = RoleLocalServiceUtil.getRole(themeDisplay.getCompanyId(), "MpwcUser");
 mpwcUserRole = RoleLocalServiceUtil.getRole(themeDisplay.getCompanyId(), "User");
 long roleId = mpwcUserRole.getRoleId();
+
+//searchContainer iteratorURL
+PortletURL iteratorURL = renderResponse.createRenderURL();
+iteratorURL.setParameter("jspPage", "/jsp/add_from_user.jsp");
+
 %>
 
-<p><b><%= res.getString("jspadd.maintitle") %></b></p>
+<h1 class="cooler-label"><b><%= res.getString("jspadd.maintitle") %></b></h1>
 
 <portlet:renderURL var="addWorkerURL">
     <portlet:param name="mvcPath" value="/jsp/add.jsp" />
@@ -65,7 +70,7 @@ long roleId = mpwcUserRole.getRoleId();
 	
 	<!-- grid -->
 	 
-	<liferay-ui:search-container delta="10">
+	<liferay-ui:search-container iteratorURL="<%= iteratorURL %>" curParam="addfuCp" delta="10">
 	
 	<liferay-ui:search-container-results>
 	<% 

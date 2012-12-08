@@ -56,7 +56,7 @@ String primKey = String.valueOf(u.getUserId());
 		<portlet:param name="liferayUserId" value="<%=primKey %>" />
 	</portlet:renderURL>
 	
-	<liferay-ui:icon image="add" message="Add" url="<%= addURL.toString() %>" />
+	<liferay-ui:icon image="add" message="formlabel.actionadd" url="<%= addURL.toString() %>" />
 </c:if>
 
 </liferay-ui:icon-menu>

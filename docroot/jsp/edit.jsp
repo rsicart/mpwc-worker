@@ -48,7 +48,7 @@ String country = locale.getCountry();
 ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
 %>
 
-<h1><%= res.getString("jspedit.maintitle") %></h1>
+<h1 class="cooler-label"> <%= res.getString("jspedit.maintitle") %></h1>
 
 <%
 	long workerId = Long.valueOf( renderRequest.getParameter("workerId") );
@@ -127,7 +127,7 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 	
 	<aui:column columnWidth="45" first="true">
 	
-	<h2><%= res.getString("jspedit.worker.projectlist") %></h2>
+	<h2 class="cooler-label"><%= res.getString("jspedit.worker.projectlist") %></h2>
 	
 	<!-- workers project list grid -->
 	 

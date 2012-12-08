@@ -67,7 +67,7 @@ try{
 
 %>
 
-<p><b><%= res.getString("jspadd.maintitle") %></b></p>
+<h1 class="cooler-label"><b><%= res.getString("jspadd.maintitle") %></b></h1>
 
 <portlet:actionURL var="addWorkerURL" name="addWorker">
     <portlet:param name="mvcPath" value="/jsp/view.jsp" />

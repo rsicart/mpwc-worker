@@ -56,7 +56,7 @@ String primKey = String.valueOf(w.getPrimaryKey());
 		<portlet:param name="workerId" value="<%=primKey %>" />
 	</portlet:renderURL>
 	
-	<liferay-ui:icon image="edit" message="Edit" url="<%= editURL.toString() %>" />
+	<liferay-ui:icon image="edit" message="formlabel.actionedit" url="<%= editURL.toString() %>" />
 </c:if>
 
 <c:if test="<%= permissionChecker.hasPermission(groupId, name, primKey, ActionKeys.DELETE) %>">
@@ -65,7 +65,7 @@ String primKey = String.valueOf(w.getPrimaryKey());
 		<portlet:param name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>" />
 	</portlet:actionURL>
 	
-	<liferay-ui:icon-delete url="<%= deleteURL.toString() %>" />
+	<liferay-ui:icon-delete url="<%= deleteURL.toString() %>" message="formlabel.actiondelete" />
 </c:if>
 
 </liferay-ui:icon-menu>
