@@ -263,9 +263,9 @@ public class WorkerPortlet extends MVCPortlet {
  			actionRequest.getPortletSession().setAttribute("ftrDesc", desc, PortletSession.PORTLET_SCOPE);
  			actionRequest.getPortletSession().setAttribute("ftrNif", nif, PortletSession.PORTLET_SCOPE);
  			actionRequest.getPortletSession().setAttribute("ftrName", name, PortletSession.PORTLET_SCOPE);
- 			actionRequest.getPortletSession().setAttribute("ftrSurname", desc, PortletSession.PORTLET_SCOPE);
- 			actionRequest.getPortletSession().setAttribute("ftrEmail", desc, PortletSession.PORTLET_SCOPE);
- 			actionRequest.getPortletSession().setAttribute("ftrPhone", desc, PortletSession.PORTLET_SCOPE);			
+ 			actionRequest.getPortletSession().setAttribute("ftrSurname", surname, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrEmail", email, PortletSession.PORTLET_SCOPE);
+ 			actionRequest.getPortletSession().setAttribute("ftrPhone", phone, PortletSession.PORTLET_SCOPE);			
  			
     	 } catch (Exception e) {
 	     		System.out.println("Action getWorkersByFilters Error: " + e.getMessage() );
