@@ -148,7 +148,13 @@ POSSIBILITY OF SUCH DAMAGE.
 	     		<aui:validator name="email" />
 			</aui:input>
 			
-			<aui:button type="submit" id="btn_filter" value='<%= res.getString("formlabel.actionfilter") %>' />
+			<aui:button-row>
+				<aui:button type="submit" id="btn_filter" value='<%= res.getString("formlabel.actionfilter") %>' />
+				<c:if test="<%= permissionChecker.hasPermission(groupId, namePortlet, primKeyPortlet, permAddWorker) %>">
+	 				<aui:button type="button" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' onClick="<%= addWorkerURL.toString() %>" />
+	 			</c:if> 
+			</aui:button-row>
+			
 					
 		</aui:fieldset>
 		</aui:column>
@@ -197,17 +203,6 @@ POSSIBILITY OF SUCH DAMAGE.
  	
  	<aui:column columnWidth="20" last="true">
  	
- 		<aui:form name="frm_add_workers" action="<%= addWorkerURL %>" method="post">
- 	
-	 	<aui:fieldset>
-	 	
-	 	<c:if test="<%= permissionChecker.hasPermission(groupId, namePortlet, primKeyPortlet, permAddWorker) %>">
-	 		<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' inlineField="false" />
-	 	</c:if> 	
-	 	
-	 	</aui:fieldset>
-	 	
-	 	</aui:form>	
  	
  	</aui:column>
  	
