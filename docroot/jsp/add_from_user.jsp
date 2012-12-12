@@ -83,9 +83,9 @@ iteratorURL.setParameter("jspPage", "/jsp/add_from_user.jsp");
 	 </liferay-ui:search-container-results>
 	 
 	 <liferay-ui:search-container-row className="com.liferay.portal.model.User" keyProperty="userId" modelVar="user">
-	 	<liferay-ui:search-container-column-text name="Name" property="firstName" />
-	 	<liferay-ui:search-container-column-text name="Surname" property="lastName" />
-	 	<liferay-ui:search-container-column-text name="Email" property="emailAddress" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.name") %>' property="firstName" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.surname") %>' property="lastName" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.email") %>' property="emailAddress" />
 	 	<liferay-ui:search-container-column-jsp path="/jsp/add_actions.jsp" align="right" />
 	 </liferay-ui:search-container-row>
 	 

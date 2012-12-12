@@ -141,22 +141,32 @@ POSSIBILITY OF SUCH DAMAGE.
 		</aui:fieldset>
 		</aui:column>
 
-		<aui:column columnWidth="60" last="true">
+		<aui:column columnWidth="20">
 		<aui:fieldset>
 		    <aui:input label='<%= res.getString("formlabel.email") %>' id="ftremail" name="ftremail" type="text" value="<%= ftrEmail %>" >
 				<!-- Only allow email format -->
 	     		<aui:validator name="email" />
 			</aui:input>
 			
+			<aui:select label='<%= res.getString("formlabel.status") %>' name="ftrdesc">
+				<aui:option value="">
+					<liferay-ui:message key="please-choose" />
+				</aui:option>
+				<aui:option label='<%= res.getString("formlabel.option.active") %>' value='<%= res.getString("formlabel.option.active") %>' selected='<%= (ftrDesc != null && ftrDesc.equals(res.getString("formlabel.option.active")) ? true : false ) %>'></aui:option>
+				<aui:option label='<%= res.getString("formlabel.option.inactive") %>' value='<%= res.getString("formlabel.option.inactive") %>' selected='<%= (ftrDesc != null && ftrDesc.equals(res.getString("formlabel.option.inactive")) ? true : false ) %>'></aui:option>
+				<aui:option label='<%= res.getString("formlabel.option.bloqued") %>' value='<%= res.getString("formlabel.option.bloqued") %>' selected='<%= (ftrDesc != null && ftrDesc.equals(res.getString("formlabel.option.bloqued")) ? true : false ) %>'></aui:option>
+			</aui:select> 
+					
+		</aui:fieldset>
+		</aui:column>
+		
+		<aui:column columnWidth="40" last="true">
 			<aui:button-row>
 				<aui:button type="submit" id="btn_filter" value='<%= res.getString("formlabel.actionfilter") %>' />
 				<c:if test="<%= permissionChecker.hasPermission(groupId, namePortlet, primKeyPortlet, permAddWorker) %>">
 	 				<aui:button type="button" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' onClick="<%= addWorkerURL.toString() %>" />
 	 			</c:if> 
 			</aui:button-row>
-			
-					
-		</aui:fieldset>
 		</aui:column>
 			
 	</aui:layout>
@@ -182,10 +192,10 @@ POSSIBILITY OF SUCH DAMAGE.
 	 </liferay-ui:search-container-results>
 	 
 	 <liferay-ui:search-container-row className="com.mpwc.model.Worker" keyProperty="workerId" modelVar="worker">
-	 	<liferay-ui:search-container-column-text name="Name" property="name" />
-	 	<liferay-ui:search-container-column-text name="Surame" property="surname" />
-	 	<liferay-ui:search-container-column-text name="Nif" property="nif" />
-	 	<liferay-ui:search-container-column-text name="Email" property="email" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.name") %>' property="name" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.surname") %>' property="surname" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.nif") %>' property="nif" />
+	 	<liferay-ui:search-container-column-text name='<%= res.getString("formlabel.email") %>' property="email" />
 	 	<liferay-ui:search-container-column-jsp path="/jsp/list_actions.jsp" align="right" />
 	 </liferay-ui:search-container-row>
 	 
