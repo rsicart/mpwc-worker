@@ -113,13 +113,15 @@ POSSIBILITY OF SUCH DAMAGE.
 		<aui:fieldset>
 		
 			<aui:input label='<%= res.getString("formlabel.name") %>' id="ftrname" name="ftrname" type="text" value="<%= ftrName %>">
-				<!-- Only allow alphabetical characters -->
-	     		<aui:validator name="alpha" />
+				<aui:validator name="custom" errorMessage="error-character-not-valid">
+				    function(val, fieldNode, ruleValue) { var patt=/[a-zA-Z0-9 ,'-]{0,100}/g; return (patt.test(val) ) }
+				</aui:validator>
 			</aui:input>
 	
 		    <aui:input label='<%= res.getString("formlabel.surname") %>' id="ftrsurname" name="ftrsurname" type="text" value="<%= ftrSurname %>">
-				<!-- Only allow alphabetical characters -->
-	     		<aui:validator name="alpha" />
+				<aui:validator name="custom" errorMessage="error-character-not-valid">
+				    function(val, fieldNode, ruleValue) { var patt=/[a-zA-Z0-9 ,'-]{0,100}/g; return (patt.test(val) ) }
+				</aui:validator>
 		    </aui:input>
 		    
 		</aui:fieldset>
@@ -144,8 +146,9 @@ POSSIBILITY OF SUCH DAMAGE.
 		<aui:column columnWidth="20">
 		<aui:fieldset>
 		    <aui:input label='<%= res.getString("formlabel.email") %>' id="ftremail" name="ftremail" type="text" value="<%= ftrEmail %>" >
-				<!-- Only allow email format -->
-	     		<aui:validator name="email" />
+				<aui:validator name="custom" errorMessage="error-character-not-valid">
+				    function(val, fieldNode, ruleValue) { var patt=/[a-zA-Z0-9 ,'-@.]{0,100}/g; return (patt.test(val) ) }
+				</aui:validator>
 			</aui:input>
 			
 			<aui:select label='<%= res.getString("formlabel.status") %>' name="ftrdesc">
