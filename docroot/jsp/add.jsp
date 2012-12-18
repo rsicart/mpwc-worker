@@ -87,13 +87,17 @@ try{
 			<aui:input label='<%= res.getString("formlabel.name") %>' name="name" type="text" value="<%= name %>">
 				<aui:validator name="required" />
 				<!-- Only allow alphabetical characters -->
-	     		<aui:validator name="alpha" />
+	     		<aui:validator name="custom" errorMessage="error-character-not-valid">
+				    function(val, fieldNode, ruleValue) { var patt=/[a-zA-Z0-9 ,'-]{1,100}/g; return (patt.test(val) ) }
+				</aui:validator>
 			</aui:input>
 	
 		    <aui:input label='<%= res.getString("formlabel.surname") %>' name="surname" type="text" value="<%= surname %>">
 		    	<aui:validator name="required" />
 				<!-- Only allow alphabetical characters -->
-	     		<aui:validator name="alpha" />
+	     		<aui:validator name="custom" errorMessage="error-character-not-valid">
+				    function(val, fieldNode, ruleValue) { var patt=/[a-zA-Z0-9 ,'-]{1,100}/g; return (patt.test(val) ) }
+				</aui:validator>
 		    </aui:input>
 	
 			<aui:input label='<%= res.getString("formlabel.phone") %>' name="phone" type="text" value="" >
@@ -103,7 +107,9 @@ try{
 			
 	   		<aui:input type="textarea" name="comments" value="" >
 				<!-- Only allow alphanumeric format -->
-	     		<aui:validator name="alphanum" />
+	     		<aui:validator name="custom" errorMessage="error-character-not-valid">
+				    function(val, fieldNode, ruleValue) { var patt=/[a-zA-Z0-9 ,'-]{0,100}/g; return (patt.test(val) ) }
+				</aui:validator>
 			</aui:input>
 			
 		</aui:fieldset>
