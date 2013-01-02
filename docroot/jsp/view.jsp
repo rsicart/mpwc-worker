@@ -182,7 +182,7 @@ POSSIBILITY OF SUCH DAMAGE.
 	
 	<!-- grid -->
 	 
-	<liferay-ui:search-container delta="5">
+	<liferay-ui:search-container delta="5" emptyResultsMessage="jspview.message.noworkers">
 	
 	<liferay-ui:search-container-results>
 	<% 
