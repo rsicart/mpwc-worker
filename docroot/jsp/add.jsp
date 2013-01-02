@@ -133,9 +133,6 @@ try{
 			</aui:input>
 			
 			<aui:select label='<%= res.getString("formlabel.status") %>' name="status">
-				<aui:option value="-1">
-					<liferay-ui:message key="please-choose" />
-				</aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.active") %>' value="1"></aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.inactive") %>' value="2"></aui:option>
 				<aui:option label='<%= res.getString("formlabel.option.bloqued") %>' value="3"></aui:option>

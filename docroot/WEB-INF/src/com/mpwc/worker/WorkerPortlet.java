@@ -56,6 +56,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -72,15 +73,15 @@ public class WorkerPortlet extends MVCPortlet {
      	
     	ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
     	
-    	long liferayUserId = Long.parseLong(actionRequest.getParameter("liferayUserId"));
-     	String name = actionRequest.getParameter("name");
-     	String surname = actionRequest.getParameter("surname");
-     	String nif = actionRequest.getParameter("nif");
-     	String email = actionRequest.getParameter("email");
-     	String phone = actionRequest.getParameter("phone");
-     	long status = Long.parseLong(actionRequest.getParameter("status"));
+    	long liferayUserId = ParamUtil.getLong(actionRequest, "liferayUserId", 0);
+     	String name = ParamUtil.getString(actionRequest, "name", "");
+     	String surname = ParamUtil.getString(actionRequest, "surname", "");
+     	String nif = ParamUtil.getString(actionRequest, "nif", "");
+     	String email = ParamUtil.getString(actionRequest, "email", "");
+     	String phone = ParamUtil.getString(actionRequest, "phone", "");
+     	long status = ParamUtil.getLong(actionRequest, "status", 0);
 
-     	String comments = actionRequest.getParameter("comments");
+     	String comments = ParamUtil.getString(actionRequest, "comments");
      	Date now = new Date();
      	
      	if(		name != null && !name.isEmpty() &&
@@ -104,11 +105,9 @@ public class WorkerPortlet extends MVCPortlet {
  		    	
  				//w.setUserName(themeDisplay.getUserName());
  				w.setCompanyId(themeDisplay.getCompanyId());
- 				//w.setGroupId(themeDisplay.getCompanyGroupId());
  				w.setGroupId(themeDisplay.getScopeGroupId());
  				w.setUserId(liferayUserId);
  		    	
- 		    	//WorkerLocalServiceUtil.addWorker(w);
  		    	WorkerLocalServiceUtil.addWorker(w, liferayUserId);
  		    	
  		    	System.out.println("addWorker userId" + liferayUserId + "groupId:" + w.getGroupId() + "companyId:" + w.getCompanyId());
@@ -131,14 +130,14 @@ public class WorkerPortlet extends MVCPortlet {
      public void editWorker(ActionRequest actionRequest, ActionResponse actionResponse)
      	       throws IOException, PortletException {
      	
-     	long workerId = Long.valueOf( actionRequest.getParameter("workerId") );
-     	String name = actionRequest.getParameter("name");
-     	String surname = actionRequest.getParameter("surname");
-     	String nif = actionRequest.getParameter("nif");
-     	String email = actionRequest.getParameter("email");
-     	String phone = actionRequest.getParameter("phone");
-     	long status = Long.parseLong(actionRequest.getParameter("status"));
-     	String comments = actionRequest.getParameter("comments");
+     	long workerId = ParamUtil.getLong(actionRequest, "workerId", 0);
+     	String name = ParamUtil.getString(actionRequest, "name", "");
+     	String surname = ParamUtil.getString(actionRequest, "surname", "");
+     	String nif = ParamUtil.getString(actionRequest, "nif", "");
+     	String email = ParamUtil.getString(actionRequest, "email", "");
+     	String phone = ParamUtil.getString(actionRequest, "phone", "");
+     	long status = ParamUtil.getLong(actionRequest, "status", 0);
+     	String comments = ParamUtil.getString(actionRequest, "comments", "");
      	Date now = new Date();
      	
      	if( workerId > 0 ){
@@ -171,19 +170,13 @@ public class WorkerPortlet extends MVCPortlet {
      
      public void deleteWorker(ActionRequest actionRequest, ActionResponse actionResponse)
   	       throws IOException, PortletException, PortalException, SystemException {
-  	
- 	    //Do not delete, mark as deleted
-     	
- 	 	long workerId = Long.valueOf( actionRequest.getParameter("workerId") );
- 	
- 	 	long status = 100; //deleted status
- 	 	String comments = "Deleted worker.";
- 	 	Date now = new Date();
+  	  	
+ 	 	long workerId = ParamUtil.getLong(actionRequest, "workerId", 0);
  	 	
  	 	if( workerId > 0 ){
  			try{
  				WorkerLocalServiceUtil.deleteWorker(workerId);
- 				//WorkerLocalServiceUtil.delete(workerId);
+
  			} catch (SystemException e) {
  				System.out.println("deleteWorker exception:" + e.getMessage());
  			}
@@ -250,12 +243,12 @@ public class WorkerPortlet extends MVCPortlet {
      	       throws IOException, PortletException{
     	 try{
  			//get params
- 			String desc = actionRequest.getParameter("ftrdesc");
- 			String nif = actionRequest.getParameter("ftrnif");
- 			String name = actionRequest.getParameter("ftrname");
- 			String surname = actionRequest.getParameter("ftrsurname");
- 			String email = actionRequest.getParameter("ftremail");
- 			String phone = actionRequest.getParameter("ftrphone");
+ 			String desc = ParamUtil.getString(actionRequest, "ftrdesc", "");
+ 			String nif = ParamUtil.getString(actionRequest, "ftrnif", "");
+ 			String name = ParamUtil.getString(actionRequest, "ftrname", "");
+ 			String surname = ParamUtil.getString(actionRequest, "ftrsurname", "");
+ 			String email = ParamUtil.getString(actionRequest, "ftremail", "");
+ 			String phone = ParamUtil.getString(actionRequest, "ftrphone", "");
  			
  			System.out.println("getWorkersByFilters params-> desc:"+desc+" - nif:"+nif+" - name:"+name+" - surname:"+surname+" - email:"+email+" - phone:"+phone);
  			
